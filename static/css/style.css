@@ -1,46 +1,27 @@
-/* 自定义样式 */
+/* 简化的样式 - 使用Bootstrap默认风格 */
 body {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 .card {
-    border: none;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.375rem;
 }
 
 .card-header {
-    border-radius: 15px 15px 0 0 !important;
-    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%) !important;
-    border: none;
-}
-
-.card-header h2 {
-    font-weight: 600;
-    letter-spacing: 1px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
 
 .form-label {
-    font-weight: 600;
-    color: #495057;
-    margin-bottom: 0.5rem;
-}
-
-.form-control {
-    border-radius: 8px;
-    border: 2px solid #e9ecef;
-    transition: all 0.3s ease;
+    font-weight: 500;
+    color: #212529;
 }
 
 .form-control:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
-
-.form-control:focus {
-    transform: translateY(-1px);
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
 
 textarea.form-control {
@@ -49,88 +30,20 @@ textarea.form-control {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
-    border: none;
-    border-radius: 10px;
-    font-weight: 600;
-    padding: 12px 30px;
-    transition: all 0.3s ease;
+    background-color: #0d6efd;
+    border-color: #0d6efd;
 }
 
 .btn-primary:hover {
-    background: linear-gradient(135deg, #0056b3 0%, #004085 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
 }
 
 .alert {
-    border-radius: 10px;
-    border: none;
-}
-
-.alert-success {
-    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
-    color: #155724;
-}
-
-.alert-danger {
-    background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
-    color: #721c24;
+    border-radius: 0.375rem;
 }
 
 .form-text {
     color: #6c757d;
     font-size: 0.875rem;
-    margin-top: 0.25rem;
-}
-
-/* 文件上传按钮样式 */
-input[type="file"] {
-    padding: 0.5rem;
-}
-
-input[type="file"]::-webkit-file-upload-button {
-    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    margin-right: 10px;
-}
-
-input[type="file"]::-webkit-file-upload-button:hover {
-    background: linear-gradient(135deg, #0056b3 0%, #004085 100%);
-}
-
-/* 响应式设计 */
-@media (max-width: 768px) {
-    .container {
-        padding: 0 15px;
-    }
-
-    .card-body {
-        padding: 1.5rem;
-    }
-
-    .btn-primary {
-        padding: 10px 20px;
-    }
-}
-
-/* 动画效果 */
-.card {
-    animation: fadeInUp 0.6s ease-out;
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }
