@@ -14,7 +14,7 @@
 <body>
     <div class="container mt-5">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-10">
                 <div class="card">
                     <div class="card-header">
                         <h2 class="text-center mb-0">K01规则交付文档生成器</h2>
@@ -33,65 +33,253 @@
                         {% endif %}
                         {% endwith %}
 
-                        <form method="POST" enctype="multipart/form-data">
+                        <form method="POST" enctype="multipart/form-data" onsubmit="handleFormSubmit()">
+                            <!-- V8和V9并列 -->
                             <div class="row">
-                                <div class="col-12">
+                                <!-- V8版本 - 左侧 -->
+                                <div class="col-md-6">
+                                    <h4 class="mb-3 text-center">V8版本</h4>
+
+                                    <!-- V8文档编号 -->
+                                    <div class="mb-3">
+                                        <label for="v8_doc_number" class="form-label">V8文档编号</label>
+                                        <input type="text" class="form-control" id="v8_doc_number" name="v8_doc_number"
+                                            required>
+                                    </div>
+
+                                    <!-- V8送测时间 -->
+                                    <div class="mb-3">
+                                        <label for="v8_test_time" class="form-label">V8送测时间</label>
+                                        <input type="date" class="form-control" id="v8_test_time" name="v8_test_time"
+                                            required>
+                                    </div>
+
+                                    <!-- V8规则版本号 -->
+                                    <div class="mb-3">
+                                        <label for="v8_version" class="form-label">V8规则版本号</label>
+                                        <input type="text" class="form-control" id="v8_version" name="v8_version"
+                                            required>
+                                    </div>
+
+                                    <!-- V8发布说明 -->
+                                    <div class="mb-3">
+                                        <label for="v8_release_notes" class="form-label">V8发布说明</label>
+                                        <textarea class="form-control" id="v8_release_notes" name="v8_release_notes"
+                                            rows="4" required></textarea>
+                                    </div>
+
+                                    <!-- V8规则1 -->
+                                    <div class="mb-3">
+                                        <label for="v8_rule1" class="form-label">V8规则1</label>
+                                        <input type="text" class="form-control" id="v8_rule1" name="v8_rule1" required>
+                                    </div>
+
+                                    <!-- V8规则2 -->
+                                    <div class="mb-3">
+                                        <label for="v8_rule2" class="form-label">V8规则2</label>
+                                        <input type="text" class="form-control" id="v8_rule2" name="v8_rule2" required>
+                                    </div>
+
+                                    <!-- V8规则3 -->
+                                    <div class="mb-3">
+                                        <label for="v8_rule3" class="form-label">V8规则3</label>
+                                        <input type="text" class="form-control" id="v8_rule3" name="v8_rule3" required>
+                                    </div>
+
+                                    <!-- V8规则4 -->
+                                    <div class="mb-3">
+                                        <label for="v8_rule4" class="form-label">V8规则4</label>
+                                        <input type="text" class="form-control" id="v8_rule4" name="v8_rule4" required>
+                                    </div>
+
+                                    <!-- V8规则5 -->
+                                    <div class="mb-3">
+                                        <label for="v8_rule5" class="form-label">V8规则5</label>
+                                        <input type="text" class="form-control" id="v8_rule5" name="v8_rule5" required>
+                                    </div>
+
+                                    <!-- V8 bin 包文件上传 -->
+                                    <div class="mb-4">
+                                        <label for="v8_bin_file" class="form-label">V8 bin 包文件上传</label>
+                                        <input type="file" class="form-control" id="v8_bin_file" name="v8_bin_file"
+                                            accept=".bin" required>
+                                        <div class="form-text">支持的文件格式：.bin</div>
+                                    </div>
+                                </div>
+
+                                <!-- V9版本 - 右侧 -->
+                                <div class="col-md-6">
+                                    <h4 class="mb-3 text-center">V9版本</h4>
+
+                                    <!-- V9文档编号 -->
+                                    <div class="mb-3">
+                                        <div class="row">
+                                            <div class="col-10">
+                                                <label for="v9_doc_number" class="form-label">V9文档编号</label>
+                                                <input type="text" class="form-control" id="v9_doc_number"
+                                                    name="v9_doc_number" required disabled>
+                                            </div>
+                                            <div class="col-2 d-flex align-items-end">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="same_doc_number"
+                                                        name="same_doc_number" checked
+                                                        onchange="toggleField('v9_doc_number', 'v8_doc_number', this)">
+                                                    <label class="form-check-label" for="same_doc_number">同V8</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- V9送测时间 -->
+                                    <div class="mb-3">
+                                        <div class="row">
+                                            <div class="col-10">
+                                                <label for="v9_test_time" class="form-label">V9送测时间</label>
+                                                <input type="date" class="form-control" id="v9_test_time"
+                                                    name="v9_test_time" required disabled>
+                                            </div>
+                                            <div class="col-2 d-flex align-items-end">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="same_test_time"
+                                                        name="same_test_time" checked
+                                                        onchange="toggleField('v9_test_time', 'v8_test_time', this)">
+                                                    <label class="form-check-label" for="same_test_time">同V8</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <!-- V9规则版本号 -->
                                     <div class="mb-3">
-                                        <label for="v9_version" class="form-label">V9规则版本号</label>
-                                        <input type="text" class="form-control" id="v9_version" name="v9_version"
-                                            required>
-                                    </div>
-
-                                    <!-- 文档编号 -->
-                                    <div class="mb-3">
-                                        <label for="doc_number" class="form-label">文档编号</label>
-                                        <input type="text" class="form-control" id="doc_number" name="doc_number"
-                                            required>
-                                    </div>
-
-                                    <!-- 送测时间 -->
-                                    <div class="mb-3">
-                                        <label for="test_time" class="form-label">送测时间</label>
-                                        <input type="date" class="form-control" id="test_time" name="test_time"
-                                            required>
+                                        <div class="row">
+                                            <div class="col-10">
+                                                <label for="v9_version" class="form-label">V9规则版本号</label>
+                                                <input type="text" class="form-control" id="v9_version"
+                                                    name="v9_version" required disabled>
+                                            </div>
+                                            <div class="col-2 d-flex align-items-end">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="same_version"
+                                                        name="same_version" checked
+                                                        onchange="toggleField('v9_version', 'v8_version', this)">
+                                                    <label class="form-check-label" for="same_version">同V8</label>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <!-- V9发布说明 -->
                                     <div class="mb-3">
-                                        <label for="v9_release_notes" class="form-label">V9发布说明</label>
-                                        <textarea class="form-control" id="v9_release_notes" name="v9_release_notes"
-                                            rows="4" required></textarea>
+                                        <div class="row">
+                                            <div class="col-10">
+                                                <label for="v9_release_notes" class="form-label">V9发布说明</label>
+                                                <textarea class="form-control" id="v9_release_notes"
+                                                    name="v9_release_notes" rows="4" required disabled></textarea>
+                                            </div>
+                                            <div class="col-2 d-flex align-items-end">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="same_release_notes" name="same_release_notes" checked
+                                                        onchange="toggleField('v9_release_notes', 'v8_release_notes', this)">
+                                                    <label class="form-check-label" for="same_release_notes">同V8</label>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <!-- V9规则1 -->
                                     <div class="mb-3">
-                                        <label for="v9_rule1" class="form-label">V9规则1</label>
-                                        <input type="text" class="form-control" id="v9_rule1" name="v9_rule1" required>
+                                        <div class="row">
+                                            <div class="col-10">
+                                                <label for="v9_rule1" class="form-label">V9规则1</label>
+                                                <input type="text" class="form-control" id="v9_rule1" name="v9_rule1"
+                                                    required disabled>
+                                            </div>
+                                            <div class="col-2 d-flex align-items-end">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="same_rule1"
+                                                        name="same_rule1" checked
+                                                        onchange="toggleField('v9_rule1', 'v8_rule1', this)">
+                                                    <label class="form-check-label" for="same_rule1">同V8</label>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <!-- V9规则2 -->
                                     <div class="mb-3">
-                                        <label for="v9_rule2" class="form-label">V9规则2</label>
-                                        <input type="text" class="form-control" id="v9_rule2" name="v9_rule2" required>
+                                        <div class="row">
+                                            <div class="col-10">
+                                                <label for="v9_rule2" class="form-label">V9规则2</label>
+                                                <input type="text" class="form-control" id="v9_rule2" name="v9_rule2"
+                                                    required disabled>
+                                            </div>
+                                            <div class="col-2 d-flex align-items-end">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="same_rule2"
+                                                        name="same_rule2" checked
+                                                        onchange="toggleField('v9_rule2', 'v8_rule2', this)">
+                                                    <label class="form-check-label" for="same_rule2">同V8</label>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <!-- V9规则3 -->
                                     <div class="mb-3">
-                                        <label for="v9_rule3" class="form-label">V9规则3</label>
-                                        <input type="text" class="form-control" id="v9_rule3" name="v9_rule3" required>
+                                        <div class="row">
+                                            <div class="col-10">
+                                                <label for="v9_rule3" class="form-label">V9规则3</label>
+                                                <input type="text" class="form-control" id="v9_rule3" name="v9_rule3"
+                                                    required disabled>
+                                            </div>
+                                            <div class="col-2 d-flex align-items-end">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="same_rule3"
+                                                        name="same_rule3" checked
+                                                        onchange="toggleField('v9_rule3', 'v8_rule3', this)">
+                                                    <label class="form-check-label" for="same_rule3">同V8</label>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <!-- V9规则4 -->
                                     <div class="mb-3">
-                                        <label for="v9_rule4" class="form-label">V9规则4</label>
-                                        <input type="text" class="form-control" id="v9_rule4" name="v9_rule4" required>
+                                        <div class="row">
+                                            <div class="col-10">
+                                                <label for="v9_rule4" class="form-label">V9规则4</label>
+                                                <input type="text" class="form-control" id="v9_rule4" name="v9_rule4"
+                                                    required disabled>
+                                            </div>
+                                            <div class="col-2 d-flex align-items-end">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="same_rule4"
+                                                        name="same_rule4" checked
+                                                        onchange="toggleField('v9_rule4', 'v8_rule4', this)">
+                                                    <label class="form-check-label" for="same_rule4">同V8</label>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <!-- V9规则5 -->
                                     <div class="mb-3">
-                                        <label for="v9_rule5" class="form-label">V9规则5</label>
-                                        <input type="text" class="form-control" id="v9_rule5" name="v9_rule5" required>
+                                        <div class="row">
+                                            <div class="col-10">
+                                                <label for="v9_rule5" class="form-label">V9规则5</label>
+                                                <input type="text" class="form-control" id="v9_rule5" name="v9_rule5"
+                                                    required disabled>
+                                            </div>
+                                            <div class="col-2 d-flex align-items-end">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="same_rule5"
+                                                        name="same_rule5" checked
+                                                        onchange="toggleField('v9_rule5', 'v8_rule5', this)">
+                                                    <label class="form-check-label" for="same_rule5">同V8</label>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <!-- V9 bin 包文件上传 -->
@@ -101,8 +289,12 @@
                                             accept=".bin" required>
                                         <div class="form-text">支持的文件格式：.bin</div>
                                     </div>
+                                </div>
+                            </div>
 
-                                    <!-- 提交按钮 -->
+                            <!-- 提交按钮 -->
+                            <div class="row">
+                                <div class="col-12">
                                     <div class="d-grid gap-2">
                                         <button type="submit" class="btn btn-primary btn-lg">提交表单</button>
                                     </div>
@@ -117,6 +309,78 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- 自定义JavaScript -->
+    <script>
+        // 切换字段是否与V8同步
+        function toggleField(v9FieldId, v8FieldId, checkbox) {
+            const v9Field = document.getElementById(v9FieldId);
+            const v8Field = document.getElementById(v8FieldId);
+
+            if (checkbox.checked) {
+                // 选中时，V9字段禁用并同步V8值
+                v9Field.disabled = true;
+                v9Field.value = v8Field.value;
+
+                // 监听V8字段变化，实时同步到V9
+                v8Field.addEventListener('input', function () {
+                    if (checkbox.checked) {
+                        v9Field.value = v8Field.value;
+                    }
+                });
+            } else {
+                // 未选中时，V9字段启用，可以独立编辑
+                v9Field.disabled = false;
+            }
+        }
+
+        // 处理表单提交
+        function handleFormSubmit() {
+            // 在提交前，启用所有被禁用的V9字段，并确保它们有正确的值
+            const checkboxes = document.querySelectorAll('input[type="checkbox"][id^="same_"]');
+            checkboxes.forEach(function (checkbox) {
+                if (checkbox.checked) {
+                    const v9FieldId = checkbox.id.replace('same_', 'v9_');
+                    const v8FieldId = checkbox.id.replace('same_', 'v8_');
+                    const v9Field = document.getElementById(v9FieldId);
+                    const v8Field = document.getElementById(v8FieldId);
+
+                    if (v9Field && v8Field) {
+                        // 启用V9字段并设置与V8相同的值
+                        v9Field.disabled = false;
+                        v9Field.value = v8Field.value;
+                    }
+                }
+            });
+
+            return true; // 允许表单提交
+        }
+
+        // 页面加载时初始化所有字段
+        document.addEventListener('DOMContentLoaded', function () {
+            // 初始化所有同步字段
+            const checkboxes = document.querySelectorAll('input[type="checkbox"][id^="same_"]');
+            checkboxes.forEach(function (checkbox) {
+                const v9FieldId = checkbox.id.replace('same_', 'v9_');
+                const v8FieldId = checkbox.id.replace('same_', 'v8_');
+                toggleField(v9FieldId, v8FieldId, checkbox);
+            });
+
+            // 为所有V8字段添加输入监听器
+            const v8Fields = document.querySelectorAll('input[id^="v8_"], textarea[id^="v8_"]');
+            v8Fields.forEach(function (v8Field) {
+                v8Field.addEventListener('input', function () {
+                    const fieldName = v8Field.id.replace('v8_', '');
+                    const checkbox = document.getElementById('same_' + fieldName);
+                    const v9Field = document.getElementById('v9_' + fieldName);
+
+                    if (checkbox && checkbox.checked && v9Field) {
+                        v9Field.value = v8Field.value;
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

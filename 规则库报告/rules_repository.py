@@ -4,7 +4,7 @@ from datetime import datetime
 today = datetime.now().strftime('%Y-%m-%d')
 
 context_v8 = {
-    'fileID': 'K01-policy-202509',
+    'fileID': 'K01-policy-202510',
     'v8_test_time': today,
     'v8_explanation': '此次在8.26901基础上调整了5条规则，新增了5条。此次规则更新在组件防护方面有显著效果',
     'v8_rules': [
@@ -18,7 +18,7 @@ context_v8 = {
 }
 
 context_v9 = {
-    'fileID': 'K01-policy-202509',
+    'fileID': 'K01-policy-202510',
     'v9_test_time': today,
     'v9_explanation': '此次在9.269基础上新增了6条规则。此次规则更新在组件防护方面有显著效果',
     'v9_rules': [
