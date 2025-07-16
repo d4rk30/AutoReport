@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 
@@ -32,6 +33,18 @@
                         {% endfor %}
                         {% endif %}
                         {% endwith %}
+
+                        <!-- 下载链接 -->
+                        {% if generated_files %}
+                        <div class="alert alert-info">
+                            <h4>已生成的报告:</h4>
+                            <ul>
+                                {% for filename in generated_files %}
+                                <li><a href="{{ url_for('download_report', filename=filename) }}">{{ filename }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
 
                         <form method="POST" enctype="multipart/form-data" onsubmit="handleFormSubmit()">
                             <!-- V8和V9并列 -->
@@ -77,25 +90,25 @@
                                     <!-- V8规则2 -->
                                     <div class="mb-3">
                                         <label for="v8_rule2" class="form-label">V8规则2</label>
-                                        <input type="text" class="form-control" id="v8_rule2" name="v8_rule2" required>
+                                        <input type="text" class="form-control" id="v8_rule2" name="v8_rule2">
                                     </div>
 
                                     <!-- V8规则3 -->
                                     <div class="mb-3">
                                         <label for="v8_rule3" class="form-label">V8规则3</label>
-                                        <input type="text" class="form-control" id="v8_rule3" name="v8_rule3" required>
+                                        <input type="text" class="form-control" id="v8_rule3" name="v8_rule3">
                                     </div>
 
                                     <!-- V8规则4 -->
                                     <div class="mb-3">
                                         <label for="v8_rule4" class="form-label">V8规则4</label>
-                                        <input type="text" class="form-control" id="v8_rule4" name="v8_rule4" required>
+                                        <input type="text" class="form-control" id="v8_rule4" name="v8_rule4">
                                     </div>
 
                                     <!-- V8规则5 -->
                                     <div class="mb-3">
                                         <label for="v8_rule5" class="form-label">V8规则5</label>
-                                        <input type="text" class="form-control" id="v8_rule5" name="v8_rule5" required>
+                                        <input type="text" class="form-control" id="v8_rule5" name="v8_rule5">
                                     </div>
 
                                     <!-- V8 bin 包文件上传 -->
@@ -211,8 +224,7 @@
                                         <div class="row">
                                             <div class="col-10">
                                                 <label for="v9_rule2" class="form-label">V9规则2</label>
-                                                <input type="text" class="form-control" id="v9_rule2" name="v9_rule2"
-                                                    required disabled>
+                                                <input type="text" class="form-control" id="v9_rule2" name="v9_rule2" disabled>
                                             </div>
                                             <div class="col-2 d-flex align-items-end">
                                                 <div class="form-check">
@@ -230,8 +242,7 @@
                                         <div class="row">
                                             <div class="col-10">
                                                 <label for="v9_rule3" class="form-label">V9规则3</label>
-                                                <input type="text" class="form-control" id="v9_rule3" name="v9_rule3"
-                                                    required disabled>
+                                                <input type="text" class="form-control" id="v9_rule3" name="v9_rule3" disabled>
                                             </div>
                                             <div class="col-2 d-flex align-items-end">
                                                 <div class="form-check">
@@ -249,8 +260,7 @@
                                         <div class="row">
                                             <div class="col-10">
                                                 <label for="v9_rule4" class="form-label">V9规则4</label>
-                                                <input type="text" class="form-control" id="v9_rule4" name="v9_rule4"
-                                                    required disabled>
+                                                <input type="text" class="form-control" id="v9_rule4" name="v9_rule4" disabled>
                                             </div>
                                             <div class="col-2 d-flex align-items-end">
                                                 <div class="form-check">
@@ -268,8 +278,7 @@
                                         <div class="row">
                                             <div class="col-10">
                                                 <label for="v9_rule5" class="form-label">V9规则5</label>
-                                                <input type="text" class="form-control" id="v9_rule5" name="v9_rule5"
-                                                    required disabled>
+                                                <input type="text" class="form-control" id="v9_rule5" name="v9_rule5" disabled>
                                             </div>
                                             <div class="col-2 d-flex align-items-end">
                                                 <div class="form-check">
@@ -320,12 +329,20 @@
             if (checkbox.checked) {
                 // 选中时，V9字段禁用并同步V8值
                 v9Field.disabled = true;
-                v9Field.value = v8Field.value;
+                if (v8Field.id === 'v8_version') {
+                    v9Field.value = convertV8toV9(v8Field.value);
+                } else {
+                    v9Field.value = v8Field.value;
+                }
 
                 // 监听V8字段变化，实时同步到V9
                 v8Field.addEventListener('input', function () {
                     if (checkbox.checked) {
-                        v9Field.value = v8Field.value;
+                        if (v8Field.id === 'v8_version') {
+                            v9Field.value = convertV8toV9(v8Field.value);
+                        } else {
+                            v9Field.value = v8Field.value;
+                        }
                     }
                 });
             } else {
@@ -334,21 +351,24 @@
             }
         }
 
+        // V8版本号到V9版本号的转换
+        function convertV8toV9(v8Version) {
+            if (v8Version && v8Version.startsWith('8.')) {
+                return '9.' + v8Version.substring(2, 5);
+            }
+            return '';
+        }
+
         // 处理表单提交
         function handleFormSubmit() {
-            // 在提交前，启用所有被禁用的V9字段，并确保它们有正确的值
+            // 在提交前，仅启用所有被禁用的V9字段，以便它们的值能被提交
             const checkboxes = document.querySelectorAll('input[type="checkbox"][id^="same_"]');
             checkboxes.forEach(function (checkbox) {
                 if (checkbox.checked) {
                     const v9FieldId = checkbox.id.replace('same_', 'v9_');
-                    const v8FieldId = checkbox.id.replace('same_', 'v8_');
                     const v9Field = document.getElementById(v9FieldId);
-                    const v8Field = document.getElementById(v8FieldId);
-
-                    if (v9Field && v8Field) {
-                        // 启用V9字段并设置与V8相同的值
+                    if (v9Field) {
                         v9Field.disabled = false;
-                        v9Field.value = v8Field.value;
                     }
                 }
             });
@@ -375,7 +395,11 @@
                     const v9Field = document.getElementById('v9_' + fieldName);
 
                     if (checkbox && checkbox.checked && v9Field) {
-                        v9Field.value = v8Field.value;
+                        if (v8Field.id === 'v8_version') {
+                            v9Field.value = convertV8toV9(v8Field.value);
+                        } else {
+                            v9Field.value = v8Field.value;
+                        }
                     }
                 });
             });
